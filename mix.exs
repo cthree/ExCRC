@@ -14,8 +14,7 @@ defmodule ExCRC.Mixfile do
       start_permanent: Mix.env == :prod,
       elixirc_paths: elixirc_paths(Mix.env),
       deps: deps(),
-      name: "ExCRC",
-      source_url: "https://github.com/cthree/ex_crc"
+      source_url: "https://github.com/cthree/ExCRC"
     ]
   end
 
@@ -42,7 +41,7 @@ defmodule ExCRC.Mixfile do
       files: ["lib", "mix.exs", "README*", "LICENSE"],
       maintainers: ["Erik Petersen"],
       licenses: ["Apache-2.0"],
-      links: %{"GitHub" => "https://github.com/cthree/ex_crc"}
+      links: %{"GitHub" => "https://github.com/cthree/ExCRC"}
     ]
   end
 
