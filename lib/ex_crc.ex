@@ -1,7 +1,7 @@
 defmodule ExCRC do
   @moduledoc """
-  Quickly calculate CRC16-CCITT checksum based on a lookup table. 
-  
+  Quickly calculate **CRC16-CCITT** checksum based on a lookup table.
+
   The table is generated with:
 
       def crc_entry(_, crc, 8), do: crc
@@ -19,10 +19,19 @@ defmodule ExCRC do
         end
       end
 
-  CRC16-CCITT uses an initial value of 0xFFFF and the polynomial 0x1021
+  **CRC16-CCITT** uses an initial value of `0xFFFF` and the polynomial `0x1021`.
+  There are several variants so it's important to know which one you
+  want to use. See
+  [the CRC catalogue](http://reveng.sourceforge.net/crc-catalogue/16.htm#crc.cat-bits.16)
+  for an exhaustive list. The key parameter in identifying the variant is the
+  **check** value. That is the CRC of the string `123456789`. The variant
+  implemented in this library has check value `0x29b1` (CRC-16/CCITT-FALSE) in
+  the catalogue. This check is included in the tests.
 
-  Ported to Elixir from (libCRC)[https://github.com/lammertb/libcrc] including
-  the tests, which pass.
+  I may add additional variant support as time permits.
+
+  Ported to Elixir from Lammert Bies' [libCRC](https://github.com/lammertb/libcrc)
+  including the tests, which pass.
   """
   use Bitwise
 
@@ -98,7 +107,7 @@ defmodule ExCRC do
   @doc """
     Compute and return the CRC16-CCITT checksum of a binary _value_.
     Some variants, XMODEM, Kermit, etc., may require a different
-    _start_ value. The start value 0xffff is the default.
+    _start_ value. The start value `65535` (`0xffff`) is the default.
   """
   @spec crc16(binary) :: non_neg_integer
   def crc16(value, start \\ 0xffff) do
