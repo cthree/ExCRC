@@ -1,29 +1,6 @@
 defmodule ExCRC do
   @moduledoc """
-  Quickly calculate CRC checksums in a number of variants using precomputed
-  lookup tables.
-
-  These computations are implemented entirely in Elixir using recursion. There
-  is a penalty for this. This library is several orders of magnatude slower
-  than the equivilent written in C or other pure binary implementation. The
-  advantage to using this library is that there are no extra dependencies and it
-  can be used on any platform without issue. NIF based libraries require
-  compilation and linking on the target platform, this one does not.
-
-  There are several variants of CRC so it's important to know which one you
-  want to use. Refer to [the CRC catalogue](http://reveng.sourceforge.net/crc-catalogue/)
-  for full details. The key parameter in identifying the variant is the
-  **check** value, the CRC checksum of the string `123456789`.
-
-  Ported to Elixir from Lammert Bies' [libCRC](https://github.com/lammertb/libcrc)
-  which seems to be the defacto implementation on StackExchange. Having looked
-  at and tried to implement many C libs, I found most didn't adapt well to
-  functional recursion.
-
-  It took me 3 days to convert 100 or so lines of C to 7 lines of Elixir :-)
-
-  I make no guarantees that this software works. Test it thoroughly before you
-  use it in a heart/lung machine.
+    Calculate CRC checksums
   """
   use Bitwise
 

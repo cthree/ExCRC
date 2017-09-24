@@ -1,7 +1,5 @@
 defmodule ExCRC.Tables do
-  @moduledoc """
-    Static CRC computation lookup tables, one per polynomial.
-  """
+  @moduledoc false
 
   # Polynomial 0x1021
   def ccitt_table do
@@ -73,6 +71,7 @@ defmodule ExCRC.Tables do
     }
   end
 
+  # Polynomial 0x8408
   def kermit_table do
     %{
       0x00 => 0x0000, 0x01 => 0x1189, 0x02 => 0x2312, 0x03 => 0x329b,

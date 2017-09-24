@@ -1,14 +1,14 @@
 defmodule ExCRC.Generator do
   @moduledoc """
-    Functions used to generate static tables used by this library
+    Functions used to generate the static tables included by this library
   """
 
   use Bitwise
 
   #
-  # Provide `print_crc_table/2` with a polynomial and it will print a
+  # Provide `print_crc_table/2` with a map and it will print the
   # map in Elixir syntax which can be used statically. This is used to
-  # generate the tables in this file
+  # generate the tables in the `ExCRC.Tables` module.
   #
   def print_crc_table(table, width \\ 4) do
     data =
@@ -33,30 +33,30 @@ defmodule ExCRC.Generator do
     IO.puts("%{\n#{trimmed}\n}")
   end
 
-  # Build the table data, return a map
-  def crc_table(polynom) do
+  # Build the table data for polynomial 0x1021, return a map
+  def ccitt_table() do
     for i <- 0..255, into: %{} do
       crc = 0
       c = i <<< 8
-      {i, crc_entry(c, crc, 0, polynom) &&& 0xffff}
+      {i, ccitt_entry(c, crc, 0, 0x1021) &&& 0xffff}
     end
   end
 
   # Compute a entry
-  defp crc_entry(_, crc, 8, _), do: crc
-  defp crc_entry(c, crc, bc, polynom) do
+  defp ccitt_entry(_, crc, 8, _), do: crc
+  defp ccitt_entry(c, crc, bc, polynom) do
     case (crc ^^^ c) &&& 0x8000 do
-      0 -> crc_entry(c <<< 1, crc <<< 1, bc + 1, polynom)
-      _ -> crc_entry(c <<< 1, (crc <<< 1) ^^^ polynom, bc + 1, polynom)
+      0 -> ccitt_entry(c <<< 1, crc <<< 1, bc + 1, polynom)
+      _ -> ccitt_entry(c <<< 1, (crc <<< 1) ^^^ polynom, bc + 1, polynom)
     end
   end
 
-  # Build the table data, return a map
-  def kermit_table(polynom) do
+  # Build the table data for polynomial 0x8408, return a map
+  def kermit_table() do
     for i <- 0..255, into: %{} do
       crc = 0
       c = i
-      {i, kermit_entry(c, crc, 0, polynom) &&& 0xffff}
+      {i, kermit_entry(c, crc, 0, 0x8408) &&& 0xffff}
     end
   end
 

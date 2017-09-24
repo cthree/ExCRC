@@ -4,7 +4,7 @@ defmodule ExCRC.Mixfile do
   def project do
     [
       app: :ex_crc,
-      version: "0.1.0",
+      version: "1.0.0",
       elixir: "~> 1.5",
       description: description(),
       package: package(),
@@ -32,7 +32,8 @@ defmodule ExCRC.Mixfile do
 
   defp description do
     """
-    Pure Elixir implementation of CCITT CRC16 algorithm.
+    Pure Elixir implementation of CRC16 algorithm in a few different
+    variants.
     """
   end
 
