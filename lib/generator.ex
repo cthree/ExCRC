@@ -3,7 +3,7 @@ defmodule ExCRC.Generator do
     Functions used to generate the static tables included by this library
   """
 
-  use Bitwise
+  import Bitwise
 
   #
   # Provide `print_crc_table/2` with a map and it will print the
@@ -45,9 +45,9 @@ defmodule ExCRC.Generator do
   # Compute a entry
   defp ccitt_entry(_, crc, 8, _), do: crc
   defp ccitt_entry(c, crc, bc, polynom) do
-    case (crc ^^^ c) &&& 0x8000 do
+    case Bitwise.bxor(crc, c) &&& 0x8000 do
       0 -> ccitt_entry(c <<< 1, crc <<< 1, bc + 1, polynom)
-      _ -> ccitt_entry(c <<< 1, (crc <<< 1) ^^^ polynom, bc + 1, polynom)
+      _ -> ccitt_entry(c <<< 1, Bitwise.bxor((crc <<< 1), polynom), bc + 1, polynom)
     end
   end
 
@@ -63,9 +63,9 @@ defmodule ExCRC.Generator do
   # Compute a entry
   defp kermit_entry(_, crc, 8, _), do: crc
   defp kermit_entry(c, crc, bc, polynom) do
-    case (crc ^^^ c) &&& 1 do
+    case Bitwise.bxor(crc, c) &&& 1 do
       0 -> kermit_entry(c >>> 1, crc >>> 1, bc + 1, polynom)
-      _ -> kermit_entry(c >>> 1, (crc >>> 1) ^^^ polynom, bc + 1, polynom)
+      _ -> kermit_entry(c >>> 1, Bitwise.bxor((crc >>> 1), polynom), bc + 1, polynom)
     end
   end
 
