@@ -2,7 +2,7 @@ defmodule ExCRC do
   @moduledoc """
     Calculate CRC checksums
   """
-  use Bitwise
+  import Bitwise
 
   # poly=0x1021, start=0xffff, check=0x29b1
   @doc """
@@ -37,8 +37,8 @@ defmodule ExCRC do
   # Calculate CRC using ccitt table
   @spec calc_ccitt([byte], non_neg_integer, table :: map) :: non_neg_integer
   defp calc_ccitt([x | rem], crc, table) do
-    key = ((crc >>> 8) ^^^ x) &&& 0xff
-    crc = (crc <<< 8) ^^^ Map.get(table, key)
+    key = Bitwise.bxor((crc >>> 8) , x) &&& 0xff
+    crc = Bitwise.bxor((crc <<< 8) , Map.get(table, key))
     calc_ccitt(rem, crc &&& 0xffff, table)
   end
   defp calc_ccitt([], crc, _), do: crc
@@ -46,8 +46,8 @@ defmodule ExCRC do
   # Calculate CRC using kermit table
   @spec calc_kermit([byte], non_neg_integer, table :: map) :: non_neg_integer
   defp calc_kermit([x | rem], crc, table) do
-    key = (crc ^^^ x) &&& 0xff
-    crc = (crc >>> 8) ^^^ Map.get(table, key)
+    key = Bitwise.bxor(crc , x) &&& 0xff
+    crc = Bitwise.bxor((crc >>> 8) , Map.get(table, key))
     calc_kermit(rem, crc &&& 0xffff, table)
   end
   defp calc_kermit([], crc, _) do
